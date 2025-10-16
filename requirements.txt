@@ -15,12 +15,8 @@ packaging==25.0
 pandas==2.3.3
 python-dateutil==2.9.0.post0
 pytz==2025.2
-<<<<<<< HEAD
 requests==2.32.5
-scikit-learn==1.7.2
-=======
 scikit-learn==1.6.1
->>>>>>> ab84f53666441ae097e3cfe4e01735eb62d42ba7
 scipy==1.16.2
 six==1.17.0
 threadpoolctl==3.6.0

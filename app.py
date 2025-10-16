@@ -28,10 +28,10 @@ def predict():
         prediction = model_pipeline.predict(df)
 
         # Predict probabilities if classifier supports it
-        proba = model_pipeline.predict_proba(df).tolist() if hasattr(model_pipeline, "predict_proba") else None
+        proba = model_pipeline.predict_proba(df) if hasattr(model_pipeline, "predict_proba") else None
 
         # Return JSON response
-        return jsonify({'prediction': prediction.tolist(), 'probabilities': proba})
+        return jsonify({'prediction': prediction , 'probabilities': proba})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400

@@ -4,9 +4,10 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Load the full pipeline (preprocess + model)
-with open('cnc_operator_pipeline.pkl', 'rb') as f:
-    model = pickle.load(f)
+# Load the full pipeline (preprocessing + model)
+PIPELINE_PATH = "cnc_operator_pipeline.pkl"
+with open(PIPELINE_PATH, 'rb') as f:
+    model_pipeline = pickle.load(f)
 
 @app.route('/')
 def home():
@@ -15,19 +16,26 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        data = request.get_json()  # Expecting a dictionary of feature_name: value
+        # Get JSON data
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No JSON data received'}), 400
+
+        # Convert to DataFrame
         df = pd.DataFrame([data])
-        prediction = model.predict(df)
 
-        # For classification, you might also want probabilities
-        if hasattr(model, "predict_proba"):
-            proba = model.predict_proba(df).tolist()
-        else:
-            proba = None
+        # Predict
+        prediction = model_pipeline.predict(df)
 
-        return jsonify({'prediction': prediction.tolist(), 'probabilities': proba.tolist()})
+        # Predict probabilities if classifier supports it
+        proba = model_pipeline.predict_proba(df).tolist() if hasattr(model_pipeline, "predict_proba") else None
+
+        # Return JSON response
+        return jsonify({'prediction': prediction.tolist(), 'probabilities': proba})
+
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
+    # Make accessible externally
     app.run(host='0.0.0.0', port=5000)

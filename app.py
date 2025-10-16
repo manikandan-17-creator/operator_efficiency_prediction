@@ -25,7 +25,7 @@ def predict():
         else:
             proba = None
 
-        return jsonify({'prediction': prediction.tolist(), 'probabilities': proba})
+        return jsonify({'prediction': prediction.tolist(), 'probabilities': proba.tolist()})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 

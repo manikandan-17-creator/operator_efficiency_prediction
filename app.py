@@ -21,17 +21,23 @@ def predict():
         if not data:
             return jsonify({'error': 'No JSON data received'}), 400
 
-        # Convert to DataFrame
+        # Convert to DataFrame (single row)
         df = pd.DataFrame([data])
 
         # Predict
-        prediction = model_pipeline.predict(df)
+        prediction = model_pipeline.predict(df)[0]  # take first element for single row
 
-        # Predict probabilities if classifier supports it
-        proba = model_pipeline.predict_proba(df) if hasattr(model_pipeline, "predict_proba") else None
+        # Predict probability if classifier supports it
+        if hasattr(model_pipeline, "predict_proba"):
+            proba = model_pipeline.predict_proba(df)[0].max()  # highest class probability
+        else:
+            proba = None
 
-        # Return JSON response
-        return jsonify({'prediction': prediction , 'probabilities': proba})
+        # Return simplified JSON
+        return jsonify({
+            'prediction': prediction,
+            'probabilities': proba
+        })
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400

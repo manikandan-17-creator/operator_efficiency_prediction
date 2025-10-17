@@ -36,7 +36,7 @@ def predict():
         # Return simplified JSON
         return jsonify({
             'prediction': prediction,
-            'probabilities': proba
+            'efficiency': proba
         })
 
     except Exception as e:

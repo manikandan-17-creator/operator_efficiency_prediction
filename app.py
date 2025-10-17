@@ -29,7 +29,7 @@ def predict():
 
         # Predict probability if classifier supports it
         if hasattr(model_pipeline, "predict_proba"):
-            proba = model_pipeline.predict_proba(df)[0]  # highest class probability
+            proba = model_pipeline.predict_proba(df)[0].max() # highest class probability
         else:
             proba = None
 

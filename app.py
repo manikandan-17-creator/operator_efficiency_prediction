@@ -5,7 +5,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load the full pipeline (preprocessing + model)
-PIPELINE_PATH = "cnc_operator_pipeline.pkl"
+PIPELINE_PATH = "C:\Users\Mani kandan\OneDrive\ドキュメント\eswari hack\redner-flask-app\cnc_operator_pipeline.pkl"
 with open(PIPELINE_PATH, 'rb') as f:
     model_pipeline = pickle.load(f)
 
@@ -29,7 +29,7 @@ def predict():
 
         # Predict probability if classifier supports it
         if hasattr(model_pipeline, "predict_proba"):
-            proba = model_pipeline.predict_proba(df)[0]  # highest class probability
+            proba = model_pipeline.predict_proba(df)[0].max() # highest class probability
         else:
             proba = None
 

@@ -5,7 +5,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load the full pipeline (preprocessing + model)
-PIPELINE_PATH = "C:\Users\Mani kandan\OneDrive\ドキュメント\eswari hack\redner-flask-app\cnc_operator_pipeline.pkl"
+PIPELINE_PATH = "redner-flask-app\cnc_operator_pipeline.pkl"
 with open(PIPELINE_PATH, 'rb') as f:
     model_pipeline = pickle.load(f)
 
